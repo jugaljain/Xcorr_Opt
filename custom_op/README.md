@@ -1,10 +1,5 @@
-To compile the files in this folder, run these options on the command line after navigating to the folder:
+Run `compile.sh` to create the shared library.
 
-```
-TF_CFLAGS=( $(python -c 'import tensorflow as tf; print(" ".join(tf.sysconfig.get_compile_flags()))') )
-TF_LFLAGS=( $(python -c 'import tensorflow as tf; print(" ".join(tf.sysconfig.get_link_flags()))') )
-nvcc -std=c++11 -c -o unroll_op.cu.o unroll_op.cu.cc ${TF_CFLAGS[@]} -D GOOGLE_CUDA=1 -x cu -Xcompiler -fPIC
-g++ -std=c++11 -shared -o normxcorr.so unroll_op.cc unroll_op.cu.o ${TF_CFLAGS[@]} -fPIC -lcudart ${TF_LFLAGS[@]}
-```
+The Makefile does not compile the op correctly for some reason, so only use it for `make clean`, which removes `normxcorr.so` and `unroll_op.cu.o`. 
 
-The Makefile does not compile the op correctly for some reason, so only use it for `make clean`. 
+test.py contains some basic boileplate code to test the op's functionality - its output should be identical to running `python Xcorr_gpu_opt.py` from the main folder. 
