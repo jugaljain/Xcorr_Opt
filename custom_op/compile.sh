@@ -3,3 +3,7 @@ TF_LFLAGS=( $(python -c 'import tensorflow as tf; print(" ".join(tf.sysconfig.ge
 
 nvcc -std=c++11 -c -o unroll_op.cu.o unroll_op.cu.cc ${TF_CFLAGS[@]} -D GOOGLE_CUDA=1 -x cu -Xcompiler -fPIC
 g++ -std=c++11 -shared -o normxcorr.so unroll_op.cc unroll_op.cu.o ${TF_CFLAGS[@]} -fPIC -lcudart ${TF_LFLAGS[@]}
+
+mkdir build
+mv normxcorr.so build
+mv unroll_op.cu.o build
